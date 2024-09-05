@@ -10,8 +10,13 @@ const app = express();
 app.use(express.json());
 
 app.get('/', async (req, res) => {
+  try{
   const data = await thoughtSchema.find({});
   res.send(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching thoughts!');
+  }
 });
 
 app.post('/upload',async (req, res) => {
@@ -40,10 +45,14 @@ app.delete('/delete/:id', async (req, res) => {
 });
 
 const Start = async () => {
+  try {
   await connectDb();
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });
+} catch (error) {
+  console.error('Error starting the server', error);
+}
 };
 
 Start();
