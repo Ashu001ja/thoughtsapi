@@ -22,7 +22,7 @@ app.get('/', async (req, res) => {
 app.post('/upload',async (req, res) => {
   try {
    const {title,name}=req.body;
-   const data=thoughtSchema({title,name});
+   const data=thoughtSchema({title,name,date: new Date().toLocaleDateString()});
    await data.save();
    res.send(data);
   } catch (err) {
